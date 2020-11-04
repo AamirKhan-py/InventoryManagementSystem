@@ -1,0 +1,236 @@
+
+{% extends "accounts/base.html" %}
+
+
+{% block content %}
+
+<br>
+{{ mt }}
+
+<div class="container shadow-lg p-3 mb-5 bg-white rounded">
+    <h1 class="text-center">New maintenance Request</h1>
+    <div class="col-md-6 offset-md-3 shadow p-3 mb-5 bg-white rounded">
+
+    <form method="POST" action="{% url 'accounts:user_maintenance_req' %}">
+    {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Lab Number</label>
+            <select onchange="labNumber(this.value)" class="form-control" id="labType" name="lab_number">
+            <script>
+                var val = ('{{mt}}').toString();
+                //console.log(val);
+                var obj=val.replace(/&quot;/g,'"');
+                var obj= JSON.parse(obj);
+               // console.log(obj);
+               // console.log(obj.length);
+                var labs = [];
+                const uniqueArray = (arr) => [...new Set(arr)];
+                let arr=[];
+                for(i=1;i<=obj.length;i++){
+                        if($.inArray(""+obj[i-1].fields.lab_number,labs))
+                        {
+                            arr.push(obj[i-1].fields.lab_number);
+                          // document.write('<option>'+obj[i-1].fields.lab_number+'</option>');
+                        }
+                }
+                uniqueArray(arr).forEach(function(entry){
+                    document.write('<option>'+entry+'</option>');
+                })
+   //           console.log("Array Logging");   
+   //            console.log(uniqueArray(arr));
+
+            </script>
+            <script>
+            labNumbers = 0;
+            componentTypes = "";
+            componentNames = "";
+            serialNumbers = "";
+
+                      function labNumber(selectedLab){
+                          labNumbers = selectedLab;
+                     var val = ('{{mt}}').toString();
+                    //console.log(val);
+                     var obj=val.replace(/&quot;/g,'"');
+                     var obj= JSON.parse(obj);
+                      var output = [];
+                      var c = [];
+                        for(var i=0;i<obj.length;i++)
+                        {
+                            for(var name in obj[i])
+                            {
+                                var lab = obj[i][name].lab_number;
+                                if(lab == selectedLab)
+                                {
+                                    if(output.includes('<option value="'+obj[i][name].component_type+'">'+obj[i][name].component_type+'</option>'))
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                     output.push('<option value="'+obj[i][name].component_type+'">'+obj[i][name].component_type+'</option>');
+
+                                    }
+                                }
+                            }
+                        }                     
+                                $('#componentType').html(output.join(''));
+
+
+
+                }
+            </script>
+            </select>
+        </div>
+    <script>
+        function selectComponent(selectedComponent)
+        {
+                componentTypes = selectedComponent;
+                     var val = ('{{mt}}').toString();
+                    //console.log(val);
+                     var obj=val.replace(/&quot;/g,'"');
+                     var obj= JSON.parse(obj);
+                      var output = [];
+                        for(var i=0;i<obj.length;i++)
+                        {
+                            for(var name in obj[i])
+                            {
+                                var cType = obj[i][name].component_type;
+                                if(cType == selectedComponent && labNumbers == obj[i][name].lab_number)
+                                {
+
+                                     output.push('<option value="'+obj[i][name].component_name+'">'+obj[i][name].component_name+'</option>');
+                                }
+                               $('#componentName').html(output.join(''));
+                            }
+                        }                     
+        }
+    </script>
+        <div class="form-group">
+            <label >Component type :</label>
+            {% comment %} <select onchange="val_change(event)" class="form-control" id="exampleFormControlSelect1"> {% endcomment %}
+            <select onclick="selectComponent(this.value)" class="form-control" id="componentType" name="component_type">
+            <script>
+                var val = ('{{mt}}').toString();
+                //console.log(val);
+                var obj=val.replace(/&quot;/g,'"');
+                var obj= JSON.parse(obj);
+     //           console.log(obj);
+      //          console.log(obj.length);
+                val = e.target.value
+                for(i=1;i<=obj.length;i++){
+                    if obj[i-1].fields.lab_number == val
+                    document.write('<option>'+obj[i-1].fields.component_type+'</option>');
+                }
+            </script>
+            </select>
+            {% comment %} 
+            {% for eis in mt %}
+                <option>{{ eis.id }}</option>
+            {% endfor %}
+            </select>
+            <input type="text" class="form-control" value="{{ mt.1.component_type }}" name="component_type" disabled> {% endcomment %}
+        </div>
+
+        <script>
+            function selectComponentName(componentName)
+            {
+                componentNames = componentName;
+                     var val = ('{{mt}}').toString();
+                    //console.log(val);
+                     var obj=val.replace(/&quot;/g,'"');
+                     var obj= JSON.parse(obj);
+                      var output = [];                
+                        for(var i=0;i<obj.length;i++)
+                        {
+                            for(var name in obj[i])
+                            {
+                                var nameType = obj[i][name].component_name;
+                                if(nameType == componentName && componentTypes == obj[i][name].component_type
+                                && componentNames == obj[i][name].component_name)
+                                {
+                                 output.push('<option value="'+obj[i][name].component_serial_number+'">'+obj[i][name].component_serial_number+'</option>');
+                                }
+                               $('#serialNumber').html(output.join(''));
+                            }
+                        }                     
+            }
+        </script>
+        <div class="form-group">
+            <label >Component name :</label>
+            <select onclick="selectComponentName(this.value)" class="form-control" id="componentName" name="component_name">
+           <script>
+                var val = ('{{mt}}').toString();
+                //console.log(val);
+                var obj=val.replace(/&quot;/g,'"');
+                var obj= JSON.parse(obj);
+      ///          console.log(obj);
+        //        console.log(obj.length);
+                for(i=1;i<=obj.length;i++){
+//                    document.write('<option>'+obj[i-1].fields.component_name+'</option>');
+                }
+            </script>
+            </select>
+        </div>
+
+<script>
+    function selectSerial(s)
+    {
+        serialNumbers  = s;
+    }
+</script>
+        <div class="form-group">
+            <label >Serial Number :</label>
+            <select onclick="selectSerial(this.value)" class="form-control" id="serialNumber" name="serial_number">
+            {<script>
+    //            var val = ('{{mt}}').toString();
+                //console.log(val);
+   //             var obj=val.replace(/&quot;/g,'"');
+  //              var obj= JSON.parse(obj);
+           //     console.log(obj);
+            //    console.log(obj.length);
+ //               for(i=1;i<=obj.length;i++){
+//                    document.write('<option>'+obj[i-1].fields.component_serial_number+'</option>');
+  //              }
+            </script>
+            </select>
+        </div>
+
+        <div>  <button type="submit" class="btn btn-primary center-block">Submit</button></div>
+
+    {% comment %} {% else %}<h1>Empty DataSet</h1>
+    {% endif %} {% endcomment %}
+    </form>
+    </div>
+</div>
+
+
+<script>
+    function val_change(e)
+    {
+    //    console.log(e.target.value);
+        var labNo = e.target.value;
+
+    }
+    
+    //console.log(val);
+
+    function convert(){
+
+        var val = ('{{mt}}').toString();
+        var obj=val.replace(/&quot;/g,'"');
+        var obj= JSON.parse(obj);
+        return obj;
+       // {% comment %} console.log(obj);
+       // console.log(obj.length); {% endcomment %}
+    }
+    
+    
+    //console.log("converted"+val.replace(/&quot;/g,'"'));
+    //eval(val.quote());
+    
+    //console.log(val);
+    for(i=0;i<obj.length;i++){
+
+    }
+</script>
+{% endblock content %}

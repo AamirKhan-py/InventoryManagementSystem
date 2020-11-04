@@ -1,0 +1,60 @@
+
+{% extends "accounts/admins_base.html" %}
+
+{% block content %}
+
+<br>
+
+<div class="container shadow-lg p-3 mb-5 bg-white rounded">
+    <h1 class="text-center">Issue Table</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Item type</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Lab Number</th>
+                <th scope="col">User</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+        <tbody>
+        {% if es is null %}
+            <tr>
+                <td>Null</td>
+                <td>Null</td>
+                <td>Null</td>
+                <td>Null</td>
+                <td>Null</td>
+                <td>Null</td>
+               
+               
+            </tr>
+        {% else %}
+            {% for eis in es %}
+            <tr>
+                <td>{{ eis.id }}</td>
+                <td>{{ eis.component_type }}</td>
+                <td>{{ eis.quantity }}</td>
+                <td>{{ eis.lab_number }}</td>
+                <td>{{ eis.user_name }}</td>
+                <td>{{ eis.status }}</td>
+                <td>{{ eis.admin_status }}</td>
+
+                <!--<td>{{ eis.description }}</td>-->
+
+                <td><a href="{% url 'accounts:admins_issue_update' eis.id %}" class="btn btn-primary" role="button">Select</a></td>
+                <td><a href="{% url 'accounts:admin_issue_item' eis.id eis.component_type eis.quantity %}" class="btn btn-primary" role="button">Issue</a></td>
+            </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,99 @@
+
+{% extends "accounts/admins_base.html" %}
+
+{% block content %}
+
+<br>
+{% for count in qnt %}
+<p>Available {{count.component_type}} : {{count.total}}</p>
+<p>{{qnt}}
+
+
+<div class="container shadow-lg p-3 mb-5 bg-white rounded">
+    <h1 class="text-center">Update Issue Request</h1>
+    <div class="col-md-6 offset-md-3 shadow p-3 mb-5 bg-white rounded">
+
+    <form method="POST" action="{% url 'accounts:admins_issue_item_update' %}">
+    {% csrf_token %}
+    {% if es is not Null %}
+    {% for eis in es %}
+    {% if eis.quantity <= count.total %}
+    <p>hello</p>
+
+    <div class="form-group">
+         <label> <h3>Request Number :</h3></label>
+         <input type="Number" class="form-control" value="{{ eis.id }}" name="ids" >
+    </div>
+        <div class="form-group">
+            <label >Component type :</label>
+            <input type="text" class="form-control" value="{{ eis.component_type }}" name="component_type">
+        </div>
+        <div class="form-group">
+            <label >Quantity :</label>
+            <input type="Number" class="form-control" value="{{ eis.quantity }}" name="quantity">
+        </div>
+
+        <div class="form-group">
+            <label >Lab Number :</label>
+            <input type="text" class="form-control" value="{{ eis.lab_number}}" name="lab_number" >
+        </div>
+        <div class="form-group">
+            <label >User Name :</label>
+            <input type="text" class="form-control" value="{{ eis.user_name }}" name="user">
+        </div>
+   
+        
+        <div>  <button type="submit" class="btn btn-primary center-block" name="bttn1">Submit</button></div>
+    </form>
+    {% else%}
+    <form method="POST" action="{% url 'accounts:admins_issue_item_update' %}">
+    {% csrf_token %}
+    {{eis.lab_number}}
+    <div class="form-group">
+         <label> <h3>Request Number :</h3></label>
+         <input type="Number" class="form-control" value="{{ eis.id }}" name="ids" >
+    </div>
+        <div class="form-group">
+            <label >Component type :</label>
+            <input type="text" class="form-control" value="{{ eis.component_type }}" name="component_type" >
+        </div>
+
+        <div class="form-group">
+            <label >Quantity :</label>
+            <input type="Number" class="form-control" value="{{ eis.quantity }}" name="quantity" >
+        </div>
+
+        <div class="form-group">
+            <label >Assigning Quantity :</label>
+            <input type="Number" class="form-control" value="{{ count.total }}" name="quantity_assign" >
+        </div>
+        <div class="form-group">
+            <label >Pending Quantity :</label>
+            <input type="Number" class="form-control" value="{{ abs }}" name="quantity_pending" >
+        </div>
+
+        <div class="form-group">
+            <label >Lab Number :</label>
+            <input type="text" class="form-control" value="{{ eis.lab_number}}" name="lab_number" >
+        </div>
+        <div class="form-group">
+            <label >User Name :</label>
+            <input type="text" class="form-control" value="{{ eis.user_name }}" name="user" >
+        </div>
+   
+        
+        <div>  <button type="submit" class="btn btn-primary center-block" name="bttn2">Submit</button></div>
+    </form>
+
+    {%endif%}
+    {% endfor %}
+    {% else %}<h1>Empty DataSet</h1>
+    {% endif %}
+        {% endfor %}
+
+    </div>
+</div>
+
+
+
+{% endblock %}

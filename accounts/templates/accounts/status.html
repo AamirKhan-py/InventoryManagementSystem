@@ -1,0 +1,84 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+
+<br>
+
+<div class="container shadow-lg p-3 mb-5 bg-white rounded">
+    <h1 class="text-center">Product Table</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Component type</th>
+                <th scope="col">Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if cnt is null %}
+            <tr>
+                <td>Null</td>
+                <td>Null</td>
+            </tr>
+        {% else %}
+            {% for cnts in cnt %}
+            <tr>
+                <td>{{ cnts.component_type }}</td>
+                <td>{{ cnts.total }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+<div class="container shadow-lg p-3 mb-5 bg-white rounded">
+    <h1 class="text-center">Detail Table</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Size</th>
+                <th scope="col">Serial Number</th>
+                <th scope="col">Manufacture Name</th>
+                <th scope="col">Model Number</th>
+            </tr>
+            </thead>
+        <tbody>
+        {% if ai is null %}
+            <tr>
+                <td>Null</td>
+                <td>Null</td>
+                <td>Null</td>
+                <td>Null</td>
+                <td>Null</td>
+                <td>Null</td>
+                <td>Null</td>
+            </tr>
+        {% else %}
+            {% for ais in ai %}
+            <tr>
+                <td>{{ ais.id }}</td>
+                <td>{{ ais.component_name }}</td>
+                <td>{{ ais.component_type }}</td>
+                <td>{{ ais.component_size }}</td>
+                <td>{{ ais.component_serial_number }}</td>
+                <td>{{ ais.manufacturer_name }}</td>
+                <td>{{ ais.model_number}}</td>
+            </tr>
+            {% endfor %}
+            
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+{% endblock content %}

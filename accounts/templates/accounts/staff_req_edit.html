@@ -1,0 +1,63 @@
+
+{% extends "accounts/base.html" %}
+
+{% block content %}
+
+<br>
+
+<div class="container shadow-lg p-3 mb-5 bg-white rounded">
+    <h1 class="text-center">Update Issue Request</h1>
+    <div class="col-md-6 offset-md-3 shadow p-3 mb-5 bg-white rounded">
+
+    <form method="POST" action="{% url 'accounts:staff_handle_edit' %}">
+    {% csrf_token %}
+    {% if remo is not Null %}
+    {% for eis in remo %}
+
+    <div class="form-group">
+         <label> <h3>Request Number :</h3></label>
+         <input type="Number" class="form-control" value="{{ eis.id }}" name="ids" >
+    </div>
+        <div class="form-group">
+            <label >Component type :</label>
+            <input type="text" class="form-control" value="{{ eis.component_type }}" name="component_type" disabled>
+        </div>
+        <div class="form-group">
+            <label >Serial Number :</label>
+            <input type="text" class="form-control" value="{{ eis.component_serial_number }}" name="serial_number" >
+        </div>
+
+        <div class="form-group">
+            <label >Lab Number :</label>
+            <input type="Number" class="form-control" value="{{ eis.lab_number }}" name="lab_number" disabled>
+        </div>
+
+        <div class="form-group">
+            <label >User Name :</label>
+            <input type="text" class="form-control" value="{{ eis.user_name }}" name="user" disabled>
+        </div>
+
+        <div class="form-group">
+            <label >User Status :</label>
+            <input type="text" class="form-control" value="{{ eis.status }}" name = "status" disabled>
+        </div>   
+        
+        <div class="form-group">
+            <label >Status :</label>
+                <select class="form-control" name="admin_status">
+                    <option>Pending</option>
+                    <option>Approved</option>
+                    <option>Faulty</option>
+                </select>  
+        </div>   
+        <div>  <button type="submit" class="btn btn-primary center-block">Submit</button></div>
+    {% endfor %}
+    {% else %}<h1>Empty DataSet</h1>
+    {% endif %}
+    </form>
+    </div>
+</div>
+
+
+
+{% endblock %}

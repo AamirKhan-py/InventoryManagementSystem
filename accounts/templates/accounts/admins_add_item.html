@@ -1,0 +1,55 @@
+{% extends "accounts/admins_base.html" %}
+
+{% block content %}
+
+  <form method="POST" action="{% url 'accounts:admins_add_item' %}">
+  {% csrf_token %}
+    <div class="form-group">
+         <label> <h3>Component Name :</h3></label>
+         <input type="text" class="form-control"  name="c_name" required>
+    </div>
+       <div class="form-group">
+            <label >Component Type :</label>
+            <select class="form-control"  name = "c_type" required>
+                <option>MONITOR</option>
+                <option>CPU</option>
+                <option>KEYBOARD</option>
+                <option>MOUSE</option>
+                <option>LAPTOP</option>
+                <option>STORAGE DEVICES</option>
+                <option>SOFTWARE</option>
+                <option>GATEWAY</option>
+                <option>ROUTER</option>
+                <option>SWITCH</option>
+                <option>REPEATER</option>
+                <option>LAN CABLE</option>
+                <option>PRINTER</option>
+                <option>PROJECTOR</option>
+                <option>POWER CABLE</option>
+                <option>PROJECTOR CABLE</option>
+            </select>
+        </div>        <div class="form-group">
+            <label >Component Size :</label>
+            <input type="Text" class="form-control" name="c_size" required>
+        </div>
+
+        <div class="form-group">
+            <label >Component Serial Number :</label>
+            <input type="text" class="form-control" name="c_sno" required>
+        </div>
+
+
+        <div class="form-group">
+            <label >Model Number :</label>
+            <input type="text" class="form-control"  name="c_mno" required>
+        </div>
+   
+        <div class="form-group">
+            <label >Manufacturer Name :</label>
+            <input type="text" class="form-control"  name="c_mname" required>
+        </div>
+   
+        <div>  <button type="submit" class="btn btn-primary center-block">Submit</button></div>
+        </form>
+
+{% endblock %}
